@@ -12,9 +12,6 @@
 		{
 			breadcrumb_item: 'Dashboard',
 			breadcrumb_link: '/'
-		},
-		{
-			breadcrumb_item: 'Layout'
 		}
 	];
 </script>

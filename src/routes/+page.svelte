@@ -1,10 +1,5 @@
 <script>
-	let breadcrumbList = [
-		{
-			breadcrumb_item: 'Layout',
-			breadcrumb_link: '/'
-		}
-	];
+	import LayoutWrapper from './LayoutWrapper.svelte';
 </script>
 
 <svelte:head>
@@ -12,4 +7,6 @@
 	<meta name="description" content="Svelte demo app" />
 </svelte:head>
 
-<section class="">123</section>
+<LayoutWrapper>
+	<section class="">123</section>
+</LayoutWrapper>

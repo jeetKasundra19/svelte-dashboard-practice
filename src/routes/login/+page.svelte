@@ -1,39 +1,62 @@
 <script>
 	import * as Form from '$lib/components/ui/form';
 	import { Input } from '$lib/components/ui/input';
-	import { formSchema } from '$lib/schema';
+	import { formSchema } from './schema';
 	import { superForm } from 'sveltekit-superforms';
 	import { zodClient } from 'sveltekit-superforms/adapters';
+	import { goto } from '$app/navigation';
+	import { session } from '$stores';
 
 	export let data;
+
 	const form = superForm(data, {
 		validators: zodClient(formSchema)
 	});
 
 	const { form: formData, enhance } = form;
 
-	function handleOnSubmit(event) {
+	async function handleOnSubmit(event) {
 		event.preventDefault();
 
 		const data = new FormData(event.target);
 		const email = data.get('email');
+		const password = data.get('password');
 
-		console.log('Email:', email);
+		const isLoggedIn = await fakeLogin(email, password);
+
+		if (isLoggedIn) {
+			session.set({ loggedIn: true });
+			goto('/');
+		} else {
+			alert('Login failed. Please try again.');
+		}
+	}
+
+	async function fakeLogin(email, password) {
+		return new Promise((resolve) =>
+			setTimeout(() => resolve(email === 'user@example.com' && password === 'password'), 500)
+		);
 	}
 </script>
 
 <main class="layout-wrapper login">
 	<div class="flex h-full w-full items-center justify-center overflow-y-auto">
-		<form method="POST" on:submit={handleOnSubmit} use:enhance>
+		<form class="w-full max-w-sm space-y-3.5" method="POST" on:submit={handleOnSubmit} use:enhance>
 			<Form.Field {form} name="email">
 				<Form.Control let:attrs>
 					<Form.Label>Email</Form.Label>
 					<Input {...attrs} bind:value={$formData.email} />
 				</Form.Control>
-				<Form.Description>This is your public email.</Form.Description>
 				<Form.FieldErrors />
 			</Form.Field>
-			<Form.Button>Submit</Form.Button>
+			<Form.Field {form} name="password">
+				<Form.Control let:attrs>
+					<Form.Label>Password</Form.Label>
+					<Input {...attrs} bind:value={$formData.password} type="password" />
+				</Form.Control>
+				<Form.FieldErrors />
+			</Form.Field>
+			<Form.Button class="mt-6 w-full">Submit</Form.Button>
 		</form>
 	</div>
 </main>

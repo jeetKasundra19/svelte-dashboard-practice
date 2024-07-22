@@ -5,7 +5,9 @@
     "module": "ESNext",
     "paths": {
       "$lib": ["./src/lib"],
-      "$lib/*": ["./src/lib/*"]
+      "$lib/*": ["./src/lib/*"],
+      "$stores":["./src/stores"],
+      "$stores/*": ["./src/stores/*"],
     },
     /**
      * svelte-preprocess cannot figure out whether you have

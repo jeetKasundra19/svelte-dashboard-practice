@@ -5,6 +5,7 @@
 	import * as DropdownMenu from '$lib/components/ui/dropdown-menu/index.js';
 	import Moon from 'lucide-svelte/icons/moon';
 	import CircleGauge from 'lucide-svelte/icons/circle-gauge';
+	import FolderKanban from 'lucide-svelte/icons/folder-kanban';
 	import { ModeWatcher } from 'mode-watcher';
 	import { resetMode, setMode } from 'mode-watcher';
 	import * as Menubar from '$lib/components/ui/menubar/index.js';
@@ -20,6 +21,11 @@
 					menu_shortcut: '⌘T'
 				}
 			]
+		},
+		{
+			id: '#12',
+			menu_trigger: 'Projects',
+			menu_icon: FolderKanban
 		}
 	];
 </script>
@@ -29,18 +35,20 @@
 	<Menubar.Root>
 		{#each menuList as item}
 			<Menubar.Menu>
-				<Menubar.Trigger>
+				<Menubar.Trigger class="min-w-28 justify-center max-w-28">
 					<svelte:component this={item.menu_icon} class="mr-1.5 h-5 w-5" />
 					{item.menu_trigger}</Menubar.Trigger
 				>
-				<Menubar.Content>
-					{#each item.menu_content as menu}
-						<Menubar.Item>
-							{menu.menu_item}
-							<Menubar.Shortcut>{menu.menu_shortcut}</Menubar.Shortcut>
-						</Menubar.Item>
-					{/each}
-				</Menubar.Content>
+				{#if item.menu_content && item.menu_content.length > 0}
+					<Menubar.Content>
+						{#each item.menu_content as menu}
+							<Menubar.Item>
+								{menu.menu_item}
+								<Menubar.Shortcut>{menu.menu_shortcut}</Menubar.Shortcut>
+							</Menubar.Item>
+						{/each}
+					</Menubar.Content>
+				{/if}
 			</Menubar.Menu>
 		{/each}
 	</Menubar.Root>

@@ -2,6 +2,7 @@
 	import { onMount } from 'svelte';
 	import { session } from '$stores';
 	import { goto } from '$app/navigation';
+	import { ModeWatcher } from 'mode-watcher';
 	import '../app.css';
 
 	onMount(() => {
@@ -11,4 +12,5 @@
 	});
 </script>
 
+<ModeWatcher />
 <slot></slot>

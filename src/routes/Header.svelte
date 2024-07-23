@@ -4,9 +4,9 @@
 	import Sun from 'lucide-svelte/icons/sun';
 	import * as DropdownMenu from '$lib/components/ui/dropdown-menu/index.js';
 	import Moon from 'lucide-svelte/icons/moon';
+	import Timer from 'lucide-svelte/icons/Timer';
 	import CircleGauge from 'lucide-svelte/icons/circle-gauge';
 	import FolderKanban from 'lucide-svelte/icons/folder-kanban';
-	import { ModeWatcher } from 'mode-watcher';
 	import { resetMode, setMode } from 'mode-watcher';
 	import * as Menubar from '$lib/components/ui/menubar/index.js';
 
@@ -23,9 +23,24 @@
 			]
 		},
 		{
-			id: '#12',
+			id: '#120',
 			menu_trigger: 'Projects',
-			menu_icon: FolderKanban
+			menu_icon: FolderKanban,
+			menu_content: [
+				{
+					menu_item: 'Crete Project'
+				}
+			]
+		},
+		{
+			id: '#12',
+			menu_trigger: 'Time Tracker',
+			menu_icon: Timer,
+			menu_content: [
+				{
+					menu_item: 'Time Logs'
+				}
+			]
 		}
 	];
 </script>
@@ -35,7 +50,7 @@
 	<Menubar.Root>
 		{#each menuList as item}
 			<Menubar.Menu>
-				<Menubar.Trigger class="min-w-28 justify-center max-w-28">
+				<Menubar.Trigger class="min-w-28 justify-center">
 					<svelte:component this={item.menu_icon} class="mr-1.5 h-5 w-5" />
 					{item.menu_trigger}</Menubar.Trigger
 				>
@@ -86,7 +101,6 @@
 			</Button>
 		</li>
 	</ul>
-	<ModeWatcher />
 </header>
 
 <style>

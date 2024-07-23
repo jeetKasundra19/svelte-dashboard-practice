@@ -1,8 +1,11 @@
 <script>
 	import ChevronRight from 'lucide-svelte/icons/chevron-right';
 	import ChevronLeft from 'lucide-svelte/icons/chevron-left';
+	import ListFilter from 'lucide-svelte/icons/list-filter';
+	import Filter from 'lucide-svelte/icons/filter';
 	import { Button } from '$lib/components/ui/button/index.js';
 	import CalendarIcon from 'lucide-svelte/icons/calendar';
+	import * as DropdownMenu from '$lib/components/ui/dropdown-menu/index.js';
 	import { CalendarDate, DateFormatter, getLocalTimeZone } from '@internationalized/date';
 	import { cn } from '$lib/utils.js';
 	import { RangeCalendar } from '$lib/components/ui/range-calendar/index.js';
@@ -93,7 +96,24 @@
 							/>
 						</Popover.Content>
 					</Popover.Root>
-                    
+					<DropdownMenu.Root>
+						<DropdownMenu.Trigger asChild let:builder>
+							<Button builders={[builder]} variant="outline">
+								<Filter class="mr-2 h-5 w-5" />
+								Filter
+							</Button>
+						</DropdownMenu.Trigger>
+						<DropdownMenu.Content align="start" class="w-56"></DropdownMenu.Content>
+					</DropdownMenu.Root>
+					<DropdownMenu.Root>
+						<DropdownMenu.Trigger asChild let:builder>
+							<Button builders={[builder]} variant="outline">
+								<ListFilter class="mr-2 h-5 w-5" />
+								Sort
+							</Button>
+						</DropdownMenu.Trigger>
+						<DropdownMenu.Content align="start" class="w-56"></DropdownMenu.Content>
+					</DropdownMenu.Root>
 				</div>
 			</div>
 		</div>

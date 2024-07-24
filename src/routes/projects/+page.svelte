@@ -2,8 +2,10 @@
 	import LayoutWrapper from '../LayoutWrapper.svelte';
 	import ProjectDialog from './ProjectDialog.svelte';
 	import MoveUpRight from 'lucide-svelte/icons/move-up-right';
+	import Plus from 'lucide-svelte/icons/plus';
 	import { Button } from '$lib/components/ui/button/index.js';
 	import * as ToggleGroup from '$lib/components/ui/toggle-group/index.js';
+	import * as Resizable from '$lib/components/ui/resizable';
 	import { ScrollArea } from '$lib/components/ui/scroll-area/index.js';
 	import OnTaskBox from './OnTaskBox.svelte';
 
@@ -142,48 +144,67 @@
 <LayoutWrapper>
 	<div class="w-full space-y-6">
 		<div></div>
-		<div class="grid w-full grid-cols-10 gap-3.5">
-			<div class="col-span-2 w-full">
-				<div class="w-full rounded-lg border border-solid border-border">
-					<div class="space-y-2.5 p-3">
+		<div class="grid h-[620px] w-full grid-cols-10 gap-3.5">
+			<div class="col-span-2 h-full w-full">
+				<Resizable.PaneGroup
+					direction="vertical"
+					class="w-full rounded-lg border border-solid border-border"
+				>
+					<Resizable.Pane defaultSize={22}>
+						<div class="space-y-2.5 p-3">
+							<div class="flex w-full items-center justify-between gap-2.5">
+								<h4 class="text-xl capitalize">On Task Project</h4>
+								<Button variant="outline" size="icon" class="max-h-9 max-w-9 rounded-full">
+									<MoveUpRight class="h-3.5 w-3.5" />
+								</Button>
+							</div>
+							<ToggleGroup.Root
+								type="single"
+								variant="outline"
+								class="flex-wrap justify-start gap-x-2 gap-y-1.5"
+							>
+								{#each onGoingTaskFilter as filter}
+									<ToggleGroup.Item
+										class="flex h-auto items-center justify-center border-border py-1 capitalize"
+										value={filter.id}
+										aria-label="Toggle bold"
+									>
+										{filter.filter_name}
+										{#if filter.count}
+											<span
+												class="ml-2.5 flex min-h-5 min-w-5 items-center justify-center rounded-full bg-accent text-xs"
+												>{filter.count}</span
+											>
+										{/if}
+									</ToggleGroup.Item>
+								{/each}
+							</ToggleGroup.Root>
+						</div>
+					</Resizable.Pane>
+					<Resizable.Handle withHandle />
+					<Resizable.Pane defaultSize={78} minSize={78}>
+						<ScrollArea class="h-full w-full  pr-1.5">
+							<ul class="space-y-1.5 p-2">
+								{#each goingTaskList as data}
+									<OnTaskBox {data} />
+								{/each}
+							</ul>
+						</ScrollArea>
+					</Resizable.Pane>
+				</Resizable.PaneGroup>
+			</div>
+			<div class="col-span-6 h-full w-full">
+				<div class="w-full space-y-2.5">
+					<div class="space-y-2.5 px-1.5 py-3">
 						<div class="flex w-full items-center justify-between gap-2.5">
-							<h4 class="text-xl capitalize">On Task Project</h4>
+							<h4 class="text-xl capitalize">Project List</h4>
 							<Button variant="outline" size="icon" class="max-h-9 max-w-9 rounded-full">
-								<MoveUpRight class="h-3.5 w-3.5" />
+								<Plus class="h-3.5 w-3.5" />
 							</Button>
 						</div>
-						<ToggleGroup.Root
-							type="single"
-							variant="outline"
-							class="flex-wrap justify-start gap-x-2 gap-y-1.5"
-						>
-							{#each onGoingTaskFilter as filter}
-								<ToggleGroup.Item
-									class="flex h-auto items-center justify-center border-border py-1 capitalize"
-									value={filter.id}
-									aria-label="Toggle bold"
-								>
-									{filter.filter_name}
-									{#if filter.count}
-										<span
-											class="ml-2.5 flex min-h-5 min-w-5 items-center justify-center rounded-full bg-accent text-xs"
-											>{filter.count}</span
-										>
-									{/if}
-								</ToggleGroup.Item>
-							{/each}
-						</ToggleGroup.Root>
 					</div>
-					<ScrollArea class="h-96 w-full">
-						<ul class="space-y-1.5 p-2">
-							{#each goingTaskList as data}
-								<OnTaskBox {data} />
-							{/each}
-						</ul>
-					</ScrollArea>
 				</div>
 			</div>
-			<div class="col-span-6 w-full"></div>
 			<div class="col-span-2 w-full"></div>
 		</div>
 	</div>

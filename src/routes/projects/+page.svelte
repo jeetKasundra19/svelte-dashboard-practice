@@ -8,6 +8,7 @@
 	import * as Resizable from '$lib/components/ui/resizable';
 	import { ScrollArea } from '$lib/components/ui/scroll-area/index.js';
 	import OnTaskBox from './OnTaskBox.svelte';
+	import ProjectList from './ProjectList.svelte';
 
 	const onGoingTaskFilter = [
 		{
@@ -139,18 +140,20 @@
 			end_time: '2024-08-27'
 		}
 	];
+
+	const projectDialogShow = false;
 </script>
 
 <LayoutWrapper>
 	<div class="w-full space-y-6">
 		<div></div>
-		<div class="grid h-[620px] w-full grid-cols-10 gap-3.5">
+		<div class="grid w-full grid-cols-10 gap-3.5">
 			<div class="col-span-2 h-full w-full">
 				<Resizable.PaneGroup
 					direction="vertical"
 					class="w-full rounded-lg border border-solid border-border"
 				>
-					<Resizable.Pane defaultSize={22}>
+					<Resizable.Pane defaultSize={16}>
 						<div class="space-y-2.5 p-3">
 							<div class="flex w-full items-center justify-between gap-2.5">
 								<h4 class="text-xl capitalize">On Task Project</h4>
@@ -182,7 +185,7 @@
 						</div>
 					</Resizable.Pane>
 					<Resizable.Handle withHandle />
-					<Resizable.Pane defaultSize={78} minSize={78}>
+					<Resizable.Pane defaultSize={82} minSize={82}>
 						<ScrollArea class="h-full w-full  pr-1.5">
 							<ul class="space-y-1.5 p-2">
 								{#each goingTaskList as data}
@@ -195,12 +198,15 @@
 			</div>
 			<div class="col-span-6 h-full w-full">
 				<div class="w-full space-y-2.5">
-					<div class="space-y-2.5 px-1.5 py-3">
+					<div class="space-y-4 px-1.5 py-3">
 						<div class="flex w-full items-center justify-between gap-2.5">
 							<h4 class="text-xl capitalize">Project List</h4>
 							<Button variant="outline" size="icon" class="max-h-9 max-w-9 rounded-full">
 								<Plus class="h-3.5 w-3.5" />
 							</Button>
+						</div>
+						<div class="h-full w-full">
+							<ProjectList />
 						</div>
 					</div>
 				</div>
@@ -208,5 +214,5 @@
 			<div class="col-span-2 w-full"></div>
 		</div>
 	</div>
-	<ProjectDialog />
+	<ProjectDialog dialogOpen={projectDialogShow} />
 </LayoutWrapper>
